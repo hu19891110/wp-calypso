@@ -3,14 +3,13 @@
  */
 import { localize } from 'i18n-calypso';
 import React, { Component, PropTypes } from 'react';
-import Gridicon from 'gridicons';
 
 /**
  * Internal dependencies
  */
-import Button from 'components/button';
 import Card from 'components/card';
 import OrderDetailsTable from './order-details-table';
+import OrderFulfillment from './order-fulfillment';
 import OrderRefundCard from './order-refund-card';
 import SectionHeader from 'components/section-header';
 
@@ -45,16 +44,7 @@ class OrderDetails extends Component {
 				<Card className="order__details-card">
 					<OrderDetailsTable order={ order } site={ site } />
 					<OrderRefundCard order={ order } site={ site } />
-
-					<div className="order__details-fulfillment">
-						<div className="order__details-fulfillment-label">
-							<Gridicon icon="shipping" />
-							{ translate( 'Order needs to be fulfilled' ) }
-						</div>
-						<div className="order__details-fulfillment-action">
-							<Button primary>{ translate( 'Print label' ) }</Button>
-						</div>
-					</div>
+					<OrderFulfillment order={ order } site={ site } />
 				</Card>
 			</div>
 		);
