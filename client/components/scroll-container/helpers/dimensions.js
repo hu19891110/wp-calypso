@@ -1,5 +1,14 @@
 let scrollbarWidth = null;
 
+/**
+ * Calculate the width of the browser's scrollbar.  If the scrollbar width can't be calculated
+ * for some reason, zero is returned, but not cached.  If you want to force this function to
+ * recalcuate the scrollbar width, pass true into the function.
+ *
+ * @export
+ * @param {Boolean} recalculate - Pass true to force recalculation of the scrollbar width
+ * @returns {Number} Width of the browser scrollbar or 0 if it can't be calculated
+ */
 export const getScrollbarWidth = recalculate => {
 	if ( typeof window !== 'undefined' ) {
 		if ( recalculate == null ) {
@@ -32,7 +41,7 @@ export const getScrollbarWidth = recalculate => {
  * user is allowed to scroll is also needed, due to the restricted amount of available space
  * for the puck to traverse on the track if the user is allowed to scroll in both dimensions.
  *
- * @private
+ * @export
  * @param {Number} visibleSize - The number of visible pixels in the direction you care about
  * @param {Number} totalSize - The total number of pixels that the content takes up
  * @param {Number} trackMargin - The amount of space between the track and the edge of the scrollable area
@@ -48,7 +57,7 @@ export function calcPuckSize( visibleSize, totalSize, trackMargin ) {
  * the restricted amount of available space for the puck to traverse on the track if the
  * user is allowed to scroll in both dimensions.
  *
- * @private
+ * @export
  * @param {Number} visibleSize - The number of visible pixels in the direction you care about
  * @param {Number} totalSize - The total number of pixels that the content takes up
  * @param {Number} scrollAmount - The number of pixels the user has scrolled in a given dimension
