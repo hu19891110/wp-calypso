@@ -89,10 +89,8 @@ export function formatValue( value, format ) {
 	switch ( format ) {
 		case 'currency':
 			return formatCurrency( value );
-			break;
 		case 'number':
 			return Math.round( value * 100 ) / 100;
-			break;
 		case 'text':
 		default:
 			return value;
