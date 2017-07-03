@@ -16,7 +16,7 @@ import {
 	withAnalytics,
 } from 'state/analytics/actions';
 
-function uploadGravatar( { dispatch }, action, next ) {
+function uploadGravatar( { dispatch }, action ) {
 	const { email, file } = action;
 	dispatch( http( {
 		method: 'POST',
@@ -28,8 +28,6 @@ function uploadGravatar( { dispatch }, action, next ) {
 			[ 'filedata', file ],
 		],
 	}, action ) );
-
-	next( action );
 }
 
 function announceSuccess( { dispatch }, { file } ) {
