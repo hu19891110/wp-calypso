@@ -50,7 +50,7 @@ export const queueRequest = ( processOutbound, processInbound ) => ( { dispatch 
 
 	const method = rawMethod.toUpperCase();
 
-	const requestArgs = compact( [
+	const request = fetcherMap( method )( ...compact( [
 		{ path, formData },
 		{ ...query }, // wpcom mutates the query so hand it a copy
 		method === 'POST' && body,
@@ -72,8 +72,7 @@ export const queueRequest = ( processOutbound, processInbound ) => ( { dispatch 
 				? failures.forEach( handler => dispatch( extendAction( handler, failureMeta( nextError, nextHeaders ) ) ) )
 				: successes.forEach( handler => dispatch( extendAction( handler, successMeta( nextData, nextHeaders ) ) ) );
 		}
-	] );
-	const request = fetcherMap( method )( ...requestArgs );
+	] ) );
 
 	if ( 'POST' === method && onProgress ) {
 		request.upload.onprogress = event => dispatch( extendAction( onProgress, progressMeta( event ) ) );
