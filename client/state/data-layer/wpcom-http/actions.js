@@ -47,7 +47,6 @@ export const http = ( {
 		body,
 		method,
 		path,
-		apiNamespace,
 		query: { ...query, ...version },
 		formData,
 		onSuccess: onSuccess || action,

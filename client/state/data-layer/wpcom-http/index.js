@@ -43,7 +43,6 @@ export const queueRequest = ( processOutbound, processInbound ) => ( { dispatch 
 		body,
 		formData,
 		method: rawMethod,
-		apiNamespace,
 		onProgress,
 		path,
 		query = {},
@@ -52,7 +51,7 @@ export const queueRequest = ( processOutbound, processInbound ) => ( { dispatch 
 	const method = rawMethod.toUpperCase();
 
 	const requestArgs = compact( [
-		{ path, formData, apiNamespace },
+		{ path, formData },
 		{ ...query }, // wpcom mutates the query so hand it a copy
 		method === 'POST' && body,
 		( error, data, headers ) => {
