@@ -1,9 +1,30 @@
-/**
- * External Dependencies
- */
-import scrollbarWidth from 'scrollbar-width';
+let scrollbarWidth = null;
 
-export const browserScrollbarWidth = typeof document === 'undefined' ? 0 : scrollbarWidth();
+export const getScrollbarWidth = recalculate => {
+	if ( typeof window !== 'undefined' ) {
+		if ( recalculate == null ) {
+			recalculate = false;
+		}
+		if ( ( scrollbarWidth != null ) && ! recalculate ) {
+			return scrollbarWidth;
+		}
+		if ( document.readyState === 'loading' ) {
+			return 0;
+		}
+		const div1 = document.createElement( 'div' );
+		const div2 = document.createElement( 'div' );
+		div1.style.width = div2.style.width = div1.style.height = div2.style.height = '100px';
+		div1.style.overflowY = 'scroll';
+		div2.style.overflow = 'hidden';
+		document.body.appendChild( div1 );
+		document.body.appendChild( div2 );
+		scrollbarWidth = Math.abs( div1.scrollWidth - div2.scrollWidth );
+		document.body.removeChild( div1 );
+		document.body.removeChild( div2 );
+		return scrollbarWidth;
+	}
+	return 0;
+};
 
 /**
  * Determine the size of the scroll puck (draggable element of the scroll bar) given the

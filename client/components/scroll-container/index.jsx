@@ -18,7 +18,7 @@ if ( typeof window !== 'undefined' ) {
 import ScrollTrack from './ScrollTrack';
 import { BASE_CLASS } from './helpers/constants';
 import { throttleToFrame, eventInsideRect } from './helpers/events';
-import { calcPuckSize, calcPuckOffset, browserScrollbarWidth } from './helpers/dimensions';
+import { calcPuckSize, calcPuckOffset, getScrollbarWidth } from './helpers/dimensions';
 
 /**
  * This component will wrap content and create custom scroll bars for said content.  Due to requirements
@@ -401,7 +401,8 @@ export default class ScrollContainer extends PureComponent {
 
 		// Safari doesn't like the standard negative margin solution to hiding the scrollbar.  So, if
 		// the scrollbar has no width, we need to incorporate a more thorough solution.
-		const scrollbarNoLayout = browserScrollbarWidth === 0;
+		const browserScrollbarWidth = getScrollbarWidth();
+		const scrollbarNoLayout = browserScrollbarWidth == null || browserScrollbarWidth === 0;
 		const scrollbarClipStyles = {
 			marginRight: scrollbarNoLayout ? '-15px' : `-${ browserScrollbarWidth }px`,
 			paddingRight: scrollbarNoLayout ? '15px' : null,
