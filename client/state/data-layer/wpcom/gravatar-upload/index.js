@@ -32,7 +32,7 @@ function uploadGravatar( { dispatch }, action, next ) {
 	next( action );
 }
 
-function uploadComplete( { dispatch }, { file } ) {
+function announceSuccess( { dispatch }, { file } ) {
 	const fileReader = new FileReader( file );
 	fileReader.addEventListener( 'load', function() {
 		dispatch( {
@@ -47,8 +47,8 @@ function uploadComplete( { dispatch }, { file } ) {
 	fileReader.readAsDataURL( file );
 }
 
-function uploadFailed( state, action, next ) {
-	next( withAnalytics(
+function announceFailure( { dispatch } ) {
+	dispatch( withAnalytics(
 		composeAnalytics(
 			recordTracksEvent( 'calypso_edit_gravatar_upload_failure' ),
 			bumpStat( 'calypso_gravatar_update_error', 'unsuccessful_http_response' )
@@ -58,5 +58,5 @@ function uploadFailed( state, action, next ) {
 }
 
 export default {
-	[ GRAVATAR_UPLOAD_REQUEST ]: [ dispatchRequest( uploadGravatar, uploadComplete, uploadFailed ) ],
+	[ GRAVATAR_UPLOAD_REQUEST ]: [ dispatchRequest( uploadGravatar, announceSuccess, announceFailure ) ],
 };
