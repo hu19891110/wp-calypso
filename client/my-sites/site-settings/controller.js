@@ -8,6 +8,7 @@ import React from 'react';
 /**
  * Internal Dependencies
  */
+import AsyncLoad from 'components/async-load';
 import analytics from 'lib/analytics';
 import config from 'config';
 import DeleteSite from './delete-site';
@@ -131,7 +132,10 @@ const controller = {
 	guidedTransfer( context ) {
 		renderPage(
 			context,
-			<SiteSettingsComponent section="guidedTransfer" hostSlug={ context.params.host_slug } />
+			<AsyncLoad
+				require="my-sites/guided-transfer"
+				hostSlug={ context.params.host_slug }
+			/>
 		);
 	},
 
