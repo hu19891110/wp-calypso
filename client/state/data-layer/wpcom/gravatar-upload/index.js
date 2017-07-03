@@ -21,6 +21,7 @@ function uploadGravatar( { dispatch }, action, next ) {
 	dispatch( http( {
 		method: 'POST',
 		path: '/gravatar-upload',
+		body: {},
 		apiNamespace: 'wpcom/v2',
 		formData: [
 			[ 'account', email ],
