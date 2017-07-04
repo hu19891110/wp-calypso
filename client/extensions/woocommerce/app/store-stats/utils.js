@@ -81,9 +81,9 @@ export function getQueryDate( context ) {
 /**
  * Given a value and format option of 'text', 'number' and 'currency' return a formatted value.
  *
- * @param {string} value - string or number to be formatted
+ * @param {(string|number)} value - string or number to be formatted
  * @param {string} format - string of 'text', 'number' or 'currency'
- * @return {string} - formatted value to be displayed
+ * @return {(string|number)} - formatted value to be displayed
  */
 export function formatValue( value, format ) {
 	switch ( format ) {
