@@ -136,7 +136,7 @@ export class CommentDetailReply extends Component {
 						value={ commentText }
 					/>
 				</AutoDirection>
-				{ hasFocus &&
+				{ ( hasFocus || hasCommentText ) &&
 					<button
 						className={ buttonClasses }
 						disabled={ ! hasCommentText }
