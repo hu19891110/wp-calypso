@@ -75,15 +75,16 @@ function editProduct( array, product, data ) {
 
 export function editProductAttribute( attributes, attribute, data ) {
 	const prevAttributes = attributes || [];
+	const id = attribute && attribute.id;
 	const uid = attribute && attribute.uid || uniqueId( 'edit_' ) + ( new Date().getTime() );
 
 	let found = false;
 
 	// Look for this attribute in the array of attributes first.
 	const _attributes = prevAttributes.map( ( a ) => {
-		if ( uid === a.uid ) {
+		if ( uid === a.uid || id === a.id ) {
 			found = true;
-			return { ...a, ...data };
+			return { ...attribute, ...data, uid };
 		}
 
 		return a;
