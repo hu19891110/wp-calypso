@@ -16,7 +16,7 @@ import {
 	withAnalytics,
 } from 'state/analytics/actions';
 
-function uploadGravatar( { dispatch }, action ) {
+export function uploadGravatar( { dispatch }, action ) {
 	const { email, file } = action;
 	dispatch( http( {
 		method: 'POST',
@@ -30,28 +30,33 @@ function uploadGravatar( { dispatch }, action ) {
 	}, action ) );
 }
 
-function announceSuccess( { dispatch }, { file }, next, data ) {
+export function announceSuccess( { dispatch }, { file }, next, data ) {
 	// Sometimes wpcom-proxy-request reports a failed connection as a success, so
 	// we test for the response here. See
 	// https://github.com/Automattic/wp-calypso/pull/15636#issuecomment-312860944
 	if ( ! data.success ) {
 		return announceFailure( { dispatch } );
 	}
-	const fileReader = new FileReader( file );
-	fileReader.addEventListener( 'load', function() {
-		dispatch( {
-			type: GRAVATAR_UPLOAD_RECEIVE,
-			src: fileReader.result,
+	return new Promise( ( resolve ) => {
+		const fileReader = new FileReader( file );
+		fileReader.addEventListener( 'load', () => {
+			resolve( fileReader.result );
 		} );
-		dispatch( withAnalytics(
-			recordTracksEvent( 'calypso_edit_gravatar_upload_success' ),
-			{ type: GRAVATAR_UPLOAD_REQUEST_SUCCESS }
-		) );
-	} );
-	fileReader.readAsDataURL( file );
+		fileReader.readAsDataURL( file );
+	} )
+		.then( ( fileReaderData ) => {
+			dispatch( {
+				type: GRAVATAR_UPLOAD_RECEIVE,
+				src: fileReaderData,
+			} );
+			dispatch( withAnalytics(
+				recordTracksEvent( 'calypso_edit_gravatar_upload_success' ),
+				{ type: GRAVATAR_UPLOAD_REQUEST_SUCCESS }
+			) );
+		} );
 }
 
-function announceFailure( { dispatch } ) {
+export function announceFailure( { dispatch } ) {
 	dispatch( withAnalytics(
 		composeAnalytics(
 			recordTracksEvent( 'calypso_edit_gravatar_upload_failure' ),
