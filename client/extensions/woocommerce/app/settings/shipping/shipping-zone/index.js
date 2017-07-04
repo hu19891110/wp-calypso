@@ -65,18 +65,20 @@ class Shipping extends Component {
 			<Main className={ classNames( 'shipping', className ) }>
 				<QueryShippingZones siteId={ siteId } />
 				<ShippingZoneHeader onSave={ onSave } />
-				<ShippingZoneName
-					siteId={ siteId }
-					loaded={ loaded }
-					zone={ zone }
-					locations={ locations }
-					isRestOfTheWorld={ isRestOfTheWorld } />
 				{ isRestOfTheWorld
 					? null
 					: <ShippingZoneLocationList siteId={ siteId } loaded={ loaded } /> }
 				<ShippingZoneMethodList
 					siteId={ siteId }
 					loaded={ loaded } />
+				{ isRestOfTheWorld
+					? null
+					: <ShippingZoneName
+						siteId={ siteId }
+						loaded={ loaded }
+						zone={ zone }
+						locations={ locations } />
+				}
 			</Main>
 		);
 	}
