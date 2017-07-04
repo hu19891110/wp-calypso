@@ -30,7 +30,13 @@ function uploadGravatar( { dispatch }, action ) {
 	}, action ) );
 }
 
-function announceSuccess( { dispatch }, { file } ) {
+function announceSuccess( { dispatch }, { file }, next, data ) {
+	// Sometimes wpcom-proxy-request reports a failed connection as a success, so
+	// we test for the response here. See
+	// https://github.com/Automattic/wp-calypso/pull/15636#issuecomment-312860944
+	if ( ! data.success ) {
+		return announceFailure( { dispatch } );
+	}
 	const fileReader = new FileReader( file );
 	fileReader.addEventListener( 'load', function() {
 		dispatch( {
