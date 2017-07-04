@@ -25,7 +25,7 @@ export const getZoneName = ( zone, locations, translate, returnEmpty = false ) =
 	}
 
 	if ( ! locations || ! locations.length ) {
-		return translate( 'Empty zone' );
+		return translate( 'New shipping zone' );
 	}
 
 	const locationNames = locations.map( ( { name, postcodeFilter } ) => (

@@ -19,7 +19,7 @@ import { getSelectedSite } from 'state/ui/selectors';
 const ShippingZoneHeader = ( { zone, site, onSave, translate } ) => {
 	const currentCrumb = zone && isNumber( zone.id )
 		? ( <span>{ translate( 'Edit Shipping Zone' ) }</span> )
-		: ( <span>{ translate( 'Add New Shipping Zone' ) }</span> );
+		: ( <span>{ translate( 'Add new Shipping Zone' ) }</span> );
 
 	const breadcrumbs = [
 		( <a href={ getLink( '/store/settings/:site/', site ) }> { translate( 'Settings' ) } </a> ),
