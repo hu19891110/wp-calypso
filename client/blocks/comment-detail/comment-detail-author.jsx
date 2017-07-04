@@ -2,14 +2,18 @@
  * External dependencies
  */
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Gridicon from 'gridicons';
 import { localize } from 'i18n-calypso';
 import classNames from 'classnames';
+import { get } from 'lodash';
 
 /**
  * Internal dependencies
  */
 import { urlToDomainAndPath } from 'lib/url';
+import { phpToMomentDatetimeFormat } from 'my-sites/site-settings/date-time-format/utils';
+import { getSiteSettings } from 'state/site-settings/selectors';
 
 export class CommentDetailAuthor extends Component {
 	static propTypes = {
@@ -24,6 +28,7 @@ export class CommentDetailAuthor extends Component {
 		commentDate: PropTypes.string,
 		commentStatus: PropTypes.string,
 		showAuthorInfo: PropTypes.bool,
+		siteId: PropTypes.number,
 	};
 
 	static defaultProps = {
@@ -37,6 +42,24 @@ export class CommentDetailAuthor extends Component {
 	toggleExpanded = () => {
 		this.setState( { isExpanded: ! this.state.isExpanded } );
 	};
+
+	getFormattedDate = () => {
+		const {
+			commentDate,
+			dateFormat,
+			moment,
+			timeFormat,
+			translate,
+		} = this.props;
+
+		const momentDate = moment( commentDate );
+		const date = phpToMomentDatetimeFormat( momentDate, dateFormat );
+		const time = phpToMomentDatetimeFormat( momentDate, timeFormat );
+
+		return translate( '%(date)s at %(time)s', {
+			args: { date, time }
+		} );
+	}
 
 	authorMoreInfo() {
 		if ( ! this.props.showAuthorInfo ) {
@@ -113,9 +136,7 @@ export class CommentDetailAuthor extends Component {
 			authorAvatarUrl,
 			authorDisplayName,
 			authorUrl,
-			commentDate,
 			commentStatus,
-			moment,
 			showAuthorInfo,
 			translate,
 		} = this.props;
@@ -139,7 +160,7 @@ export class CommentDetailAuthor extends Component {
 							</span>
 						</div>
 						<div className="comment-detail__author-info-element comment-detail__comment-date">
-							{ moment( commentDate ).format( 'MMMM D, YYYY H:mma' ) }
+							{ this.getFormattedDate() }
 						</div>
 					</div>
 					{ 'unapproved' === commentStatus &&
@@ -160,4 +181,12 @@ export class CommentDetailAuthor extends Component {
 	}
 }
 
-export default localize( CommentDetailAuthor );
+const mapStateToProps = ( state, ownProps ) => {
+	const settings = getSiteSettings( state, ownProps.siteId );
+	return {
+		dateFormat: get( settings, 'date_format' ),
+		timeFormat: get( settings, 'time_format' ),
+	};
+};
+
+export default connect( mapStateToProps )( localize( CommentDetailAuthor ) );
