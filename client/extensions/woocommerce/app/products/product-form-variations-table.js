@@ -3,7 +3,7 @@
  */
 import React, { PropTypes } from 'react';
 import { localize } from 'i18n-calypso';
-import { find, isNumber } from 'lodash';
+import { find, isObject } from 'lodash';
 
 /**
  * Internal dependencies
@@ -114,7 +114,7 @@ class ProductFormVariationsTable extends React.Component {
 
 	renderVariationRow( variation ) {
 		const { siteId, product, variations, editProductVariation } = this.props;
-		const id = isNumber( variation.id ) && variation.id || 'index_' + variation.id.index;
+		const id = ( isObject( variation.id ) ? variation.id.placeholder : variation.id );
 		const manageStock = ( find( variations, ( v ) => v.manage_stock ) ) ? true : false;
 
 		return (
