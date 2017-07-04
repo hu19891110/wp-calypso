@@ -42,13 +42,14 @@ describe( 'EditGravatar', function() {
 		};
 	} );
 
-	before( function() {
+	before( function( done ) {
 		EditGravatar = require( 'blocks/edit-gravatar' ).EditGravatar;
 		FilePicker = require( 'components/file-picker' );
 		Gravatar = require( 'components/gravatar' ).default;
 		ImageEditor = require( 'blocks/image-editor' );
 		VerifyEmailDialog = require( 'components/email-verification/email-verification-dialog' );
 		DropZone = require( 'components/drop-zone' ).default;
+		done();
 	} );
 
 	describe( 'component rendering', () => {
